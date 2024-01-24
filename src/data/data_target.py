@@ -9,13 +9,23 @@ from sqlalchemy import create_engine
 
 
 class DataTarget(ETLComponent):
+    """Base class for data targets."""
     staging_area = None
 
     def run(self, staging_area: dict[str, pd.DataFrame]):
+        """Run the data target.
+        
+        Args:
+            staging_area (dict): The staging area containing DataFrames.
+        """
         self.staging_area = staging_area
         self.write()
 
     def write(self):
+        """Abstract method to be implemented by subclasses.
+        
+        Writes the staging area to the data target.
+        """
         raise NotImplementedError(
             '`DataTarget` subclasses should implement the write() method')
 

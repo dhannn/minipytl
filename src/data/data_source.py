@@ -5,8 +5,13 @@ import mysql.connector
 import pandas as pd
 
 class DataSource(ETLComponent):
-
+    """Base class for data sources."""
     def run(self, staging_area: dict[str, pd.DataFrame]):
+        """Run the data source.
+        
+        Args:
+            staging_area (dict): The staging area containing DataFrames.
+        """
         result = self.read()
         if type(result) == dict:
             for table_name in result.keys():
@@ -16,6 +21,11 @@ class DataSource(ETLComponent):
 
 
     def read(self) -> tuple[str, pd.DataFrame] | dict[str, pd.DataFrame]:
+        """Abstract method to be implemented by subclasses.
+        
+        Returns:
+            tuple[str, pd.DataFrame] | dict[str, pd.DataFrame]: Data read from the source.
+        """
         raise NotImplementedError(
             '`DataSource` subclasses should implement the read() method')
 
